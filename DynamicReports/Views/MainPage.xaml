@@ -1,0 +1,175 @@
+﻿<UserControl x:Class="DynamicReports.Views.MainPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:Views="clr-namespace:DynamicReports.Views"
+             xmlns:Converters="clr-namespace:DynamicReports.Converters"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <Style TargetType="telerik:RadGridView">
+            <Setter Property="AutoGenerateColumns"
+                    Value="False" />
+            <Setter Property="ShowGroupPanel"
+                    Value="False" />
+            <Setter Property="SelectionMode"
+                    Value="Single" />
+            <Setter Property="IsReadOnly"
+                    Value="True" />
+            <Setter Property="ShowInsertRow"
+                    Value="False" />
+            <Setter Property="IsFilteringAllowed"
+                    Value="False" />
+            <Setter Property="SelectionUnit"
+                    Value="FullRow" />
+            <Setter Property="RowIndicatorVisibility"
+                    Value="Collapsed" />
+            <Setter Property="Margin"
+                    Value="20, 20, 20, 0" />
+        </Style>
+
+        <Style x:Key="DynamicRadGridViewStyle"
+               TargetType="telerik:RadGridView">
+            <Setter Property="AutoGenerateColumns"
+                    Value="False" />
+            <Setter Property="IsFilteringAllowed"
+                    Value="True" />
+            <Setter Property="Margin"
+                    Value="20" />
+            <Setter Property="IsReadOnly"
+                    Value="true" />
+            <Setter Property="RowIndicatorVisibility"
+                    Value="Collapsed" />
+            <Setter Property="ShowGroupPanel"
+                    Value="False" />
+        </Style>
+
+        <Style TargetType="telerik:RadButton">
+            <Setter Property="Height"
+                    Value="50" />
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot"
+          Background="White">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="FlyoutStates">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition GeneratedDuration="0:0:0.5" />
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="Hide" />
+                <VisualState x:Name="Show">
+                    <Storyboard>
+                        <DoubleAnimation d:IsOptimized="True"
+                                         Duration="0"
+                                         Storyboard.TargetName="flyout"
+                                         Storyboard.TargetProperty="(FrameworkElement.Width)"
+                                         To="300" />
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="Auto"
+                              MinWidth="10" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="280" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <telerik:RadGridView Name="ReportTypes"
+                             ItemsSource="{Binding ReportTypes}"
+                             SelectedItem="{Binding SelectedReport, Mode=TwoWay}">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Name}"
+                                            Header="Reports"
+                                            Width="*" />
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+
+        <telerik:RadGridView ItemsSource="{Binding SelectedReport.Parameters, Mode=OneWay}"
+                             ShowGroupPanel="False"
+                             RowIndicatorVisibility="Collapsed"
+                             Grid.Row="0"
+                             Grid.Column="1"
+                             Margin="0,20,0,0">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding DisplayName}"
+                                            Header="Parameter" />
+                <telerik:GridViewCheckBoxColumn DataMemberBinding="{Binding Required}"
+                                                Header="Required" />
+                <telerik:GridViewDataColumn Header="Value"
+                                            Width="*">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Value, Mode=TwoWay}"
+                                           Visibility="{Binding IsValueList, Converter={Converters:BoolToVisibilityConverter FalseValue=Visible, TrueValue=Collapsed}}" />
+                                <telerik:RadComboBox ItemsSource="{Binding ValueList}"
+                                                     SelectedItem="{Binding Path=Value.Id, Mode=TwoWay}"
+                                                     DisplayMemberPath="DisplayName"
+                                                     Visibility="{Binding IsValueList, Converter={Converters:BoolToVisibilityConverter FalseValue=Collapsed, TrueValue=Visible}}">
+                                </telerik:RadComboBox>
+                            </StackPanel>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+
+        <StackPanel Grid.Column="2"
+                    Margin="20,20,20,0">
+            <telerik:RadButton Content="Execute"
+                               Command="{Binding ExecuteReportCommand}" />
+            <telerik:RadButton Content="Save"
+                               Margin="0,10,0,0" />
+            <telerik:RadButton Content="Load"
+                               Margin="0,10,0,0" />
+            <telerik:RadButton Content="Export to Excel"
+                               Margin="0,40,0,0" />
+        </StackPanel>
+
+        <telerik:RadGridView x:Name="DynamicReportGrid"
+                             Grid.Row="1"
+                             Grid.ColumnSpan="3"
+                             Style="{StaticResource DynamicRadGridViewStyle}"
+                             ItemsSource="{Binding DynamicReport.Items}" />
+
+        <Views:ReportsFlyOut x:Name="flyout"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Top"
+                      Height="700"
+                      Width="10"
+                      RenderTransformOrigin="0.5,0.5"
+                      Grid.Column="3"
+                      Grid.Row="0"
+                      Grid.RowSpan="2">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseEnter">
+                    <ei:GoToStateAction StateName="Show" />
+                </i:EventTrigger>
+
+                <i:EventTrigger EventName="MouseLeave">
+                    <ei:GoToStateAction StateName="Hide" />
+                </i:EventTrigger>
+
+            </i:Interaction.Triggers>
+            <Views:ReportsFlyOut.RenderTransform>
+                <CompositeTransform />
+            </Views:ReportsFlyOut.RenderTransform>
+        </Views:ReportsFlyOut>
+    </Grid>
+</UserControl>

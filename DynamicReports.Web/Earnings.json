@@ -1,0 +1,22 @@
+﻿[
+  {
+    "Stock" : "Apple",
+	"EarningsPerShare" : "11.78",
+	"Curency" : "GBP"
+  },
+  {
+    "Stock" : "Google",
+	"EarningsPerShare" : "67.40",
+	"Curency" : "USD"
+  },
+  {
+    "Stock" : "IBM",
+	"EarningsPerShare" : "45.16",
+	"Curency" : "GBP"
+  },
+  {
+    "Stock" : "Microsoft",
+	"EarningsPerShare" : "89.77",
+	"Curency" : "USD"
+  }
+]

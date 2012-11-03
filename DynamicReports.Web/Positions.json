@@ -1,0 +1,24 @@
+﻿[
+  {
+    "Name" : "Zoogle Fund High Interest",
+	"AccountNo" : "989898",
+	"Code" : "121212",
+	"ShortName" : "ZFHIR",
+	"TradeReference" : "ZOOG",
+	"TradeColateralIndicator" : "AAAAA",
+	"BorrowLoan" : "",
+	"Isin" : "US0378654",
+	"Valoren" : ""
+  },
+  {
+    "Name" : "Zoogle Fund High Interest 2",
+	"AccountNo" : "949494",
+	"Code" : "131313",
+	"ShortName" : "ZF2",
+	"TradeReference" : "ZOOG2",
+	"TradeColateralIndicator" : "BBBBB",
+	"BorrowLoan" : "",
+	"Isin" : "US0378655",
+	"Valoren" : ""
+  }
+]

@@ -1,0 +1,52 @@
+﻿[
+  {
+    "Name":"Positions",
+    "Endpoint":"ExecutionService.ashx",
+    "Parameters":[
+      {
+        "Id":"TradeType",
+        "DisplayName":"Pending or Open",
+        "Required":"true",
+        "Description":"Type of trade",
+        "Value":"P",
+        "IsValueList":"true",
+        "ValueList":[
+          {
+            "Id":"P",
+            "DisplayName":"Pending"
+          },
+          {
+            "Id":"O",
+            "DisplayName":"Open"
+          }
+        ]
+      },
+      {
+        "Id":"AssetISIN",
+        "DisplayName":"Asset ISIN",
+        "Required":"true",
+        "Description":"Asset International Security Identification Number",
+        "Value":"98977654554",
+        "IsValueList":"false",
+        "ValueList":[
+
+        ]
+      }
+    ]
+  },
+  {
+    "Name":"Earnings",
+    "Endpoint":"ExecutionService.ashx",
+    "Parameters":[
+      {
+        "Id":"ClientId",
+        "DisplayName":"Client Id",
+        "Required":"false",
+        "Description":"Client Identifier",
+        "Value":"7818278127",
+        "IsValueList":"false",
+        "ValueList":[]
+      }
+    ]
+  }
+]
