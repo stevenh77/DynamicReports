@@ -139,6 +139,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Overview.cd" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup />
